@@ -5,12 +5,13 @@
 using namespace std;
 
 int main(){
-    long l, r; 
+    long l, r;
     int sum = 0;
     cin >> l >> r;
     for(; l <= r; l++){
         string val_str = to_string(l);
         int val_length = (int) val_str.length();
+
 
         for(int i = 1; i < val_length; i++){
             if((val_str.at(i) - '0') >= (val_str.at(0) - '0')){
