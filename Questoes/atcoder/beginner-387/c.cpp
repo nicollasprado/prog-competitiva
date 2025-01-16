@@ -1,38 +1,41 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
 int main(){
-    long l, r, sum = 0;
+    long l, r; 
+    int sum = 0;
     cin >> l >> r;
     for(; l <= r; l++){
         string val_str = to_string(l);
-        int val_size = (int) val_str.length();
-        long first_num = (long) val_str.at(0);
+        int val_length = (int) val_str.length();
 
-        if((long) val_str.at(val_size - 1) == 9){
-            continue;
-        }
-
-        int qt_iterations = val_size / 2;
-        qt_iterations += (val_size % 2 != 0) ? 1 : 0;
-
-        int back_index = val_size - 1;
-        for(int i = 1; i <= qt_iterations; i++){
-            long iter_front = (long) val_str.at(i);
-            long iter_back = (long) val_str.at(back_index);
-            if((iter_front >= first_num) || (iter_back >= first_num)){
-                break;
-            }
-            if(i == qt_iterations){
-                if(first_num > iter_front && first_num > iter_back){
-                    sum += 1;
+        for(int i = 1; i < val_length; i++){
+            if((val_str.at(i) - '0') >= (val_str.at(0) - '0')){
+                string substring = "";
+                if(val_length == 2){
+                    substring = val_str.at(0);
+                }else{
+                    string substring = val_str.substr(0, (i - 1));
                 }
-            }
+                long target_num = stol(substring) + 1;
+                for(int j = 0; j < i - 1; j++){
+                    target_num = target_num * 10;
+                }
 
-            back_index--;
+                long sum_val = (target_num - stol(val_str)) - 1;
+
+                l += sum_val;
+                if(l > r){
+                    break;
+                }
+                continue;
+            }
         }
+
+        sum += ((int) val_str.at(val_length - 1) >= (int) val_str.at(0)) ? 0 : 1;
     }
     cout << sum << "\n";
     return 0;
